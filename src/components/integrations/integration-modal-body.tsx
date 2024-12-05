@@ -35,7 +35,6 @@ export const IntegrationModalBody = ({
           ))}
           <div className="flex justify-between mt-10">
             <Button variant="outline">Learn more</Button>
-            <StripeConnect connected={connections[type]} />
           </div>
         </div>
       )
