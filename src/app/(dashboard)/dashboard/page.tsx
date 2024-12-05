@@ -17,16 +17,23 @@ import { TransactionsIcon } from '@/icons/transactions-icon'
 import { DollarSign } from 'lucide-react'
 import React from 'react'
 
-type Props = {}
+type Props = {
+  clients: number
+  sales: number
+  bookings: number
+  plan: any
+  transactions: any
+  products: number
+}
 
-const Page = async (props: Props) => {
-  const clients = await getUserClients()
-  const sales = await getUserBalance()
-  const bookings = await getUserAppointments()
-  const plan = await getUserPlanInfo()
-  const transactions = await getUserTransactions()
-  const products = await getUserTotalProductPrices()
-
+const Page = ({
+  clients,
+  sales,
+  bookings,
+  plan,
+  transactions,
+  products,
+}: Props) => {
   return (
     <>
       <InfoBar />
@@ -38,7 +45,7 @@ const Page = async (props: Props) => {
             icon={<PersonIcon />}
           />
           <DashboardCard
-            value={products! * clients! || 0}
+            value={products * clients || 0}
             sales
             title="Pipline Value"
             icon={<DollarSign />}
@@ -80,7 +87,7 @@ const Page = async (props: Props) => {
             </div>
             <Separator orientation="horizontal" />
             {transactions &&
-              transactions.data.map((transaction) => (
+              transactions.data.map((transaction: { id: React.Key | null | undefined; calculated_statement_descriptor: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; amount: number }) => (
                 <div
                   className="flex gap-3 w-full justify-between items-center border-b-2 py-5"
                   key={transaction.id}
@@ -100,4 +107,36 @@ const Page = async (props: Props) => {
   )
 }
 
+// Server-side data fetching with dummy values
+export async function getServerSideProps() {
+  // Replace these with your actual API calls when you have the data
+  const clients = 10 // Dummy value
+  const sales = 1000 // Dummy value
+  const bookings = 5 // Dummy value
+  const plan = {
+    plan: 'Pro', // Dummy value
+    credits: 100, // Dummy value
+    domains: 3, // Dummy value
+  }
+  const transactions = {
+    data: [
+      { id: 1, calculated_statement_descriptor: 'Payment 1', amount: 5000 },
+      { id: 2, calculated_statement_descriptor: 'Payment 2', amount: 2000 },
+    ], // Dummy values
+  }
+  const products = 500 // Dummy value
+
+  return {
+    props: {
+      clients,
+      sales,
+      bookings,
+      plan,
+      transactions,
+      products,
+    },
+  }
+}
+
 export default Page
+
