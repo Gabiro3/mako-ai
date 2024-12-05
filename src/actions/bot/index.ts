@@ -5,10 +5,11 @@ import { extractEmailsFromString, extractURLfromString } from '@/lib/utils'
 import { onRealTimeChat } from '../conversation'
 import { clerkClient } from '@clerk/nextjs'
 import { onMailer } from '../mailer'
-import OpenAi from 'openai'
+import OpenAI from 'openai'
 
-const openai = new OpenAi({
-  apiKey: process.env.OPEN_AI_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 })
 
 export const onStoreConversations = async (
@@ -243,7 +244,7 @@ export const onAiChatBotAssistant = async (
               content: message,
             },
           ],
-          model: 'gpt-3.5-turbo',
+          model: 'gemini-1.5-flash',
         })
 
         if (chatCompletion.choices[0].message.content?.includes('(realtime)')) {
@@ -355,7 +356,7 @@ export const onAiChatBotAssistant = async (
             content: message,
           },
         ],
-        model: 'gpt-3.5-turbo',
+        model: 'gemini-1.5-flash',
       })
 
       if (chatCompletion) {

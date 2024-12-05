@@ -6,14 +6,17 @@ import TypeSelectionForm from './type-selection-form'
 import dynamic from 'next/dynamic'
 import { Spinner } from '@/components/spinner'
 
+// Wrapper for Spinner to satisfy DynamicOptionsLoadingProps type
+const SpinnerWrapper = () => <Spinner noPadding={true} />
+
 const DetailForm = dynamic(() => import('./account-details-form'), {
   ssr: false,
-  loading: Spinner,
+  loading: SpinnerWrapper,
 })
 
 const OTPForm = dynamic(() => import('./otp-form'), {
   ssr: false,
-  loading: Spinner,
+  loading: SpinnerWrapper,
 })
 
 type Props = {}
@@ -59,3 +62,4 @@ const RegistrationFormStep = (props: Props) => {
 }
 
 export default RegistrationFormStep
+
